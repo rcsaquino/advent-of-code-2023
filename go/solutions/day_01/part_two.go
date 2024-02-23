@@ -21,20 +21,17 @@ func getCalibrationValueTwo(code string) int {
 
 	digits := [2]int{0, 0}
 
-	// gtlbhbjgkrb5sixfivefivetwosix
 	for i := range strArr {
 		firstIndex := strings.Index(code, strArr[i])
 		lastIndex := strings.LastIndex(code, strArr[i])
 
-		if firstIndex == -1 {
-			continue
-		}
-		updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, firstIndex, i)
+		if firstIndex != -1 {
+			updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, firstIndex, i)
 
-		if firstIndex == lastIndex {
-			continue
+			if firstIndex != lastIndex {
+				updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, lastIndex, i)
+			}
 		}
-		updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, lastIndex, i)
 	}
 
 	for i, r := range code {
