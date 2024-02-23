@@ -8,7 +8,7 @@ import (
 )
 
 func getInput(path string) string {
-	res, err := os.ReadFile("inputs/day_01")
+	res, err := os.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}
