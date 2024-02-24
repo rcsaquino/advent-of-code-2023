@@ -16,8 +16,8 @@ func partTwo(lines []string) int {
 func getCalibrationValueTwo(code string) int {
 	strArr := [10]string{"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 
-	firstDigitPosition := len(code)
-	lastDigitPosition := -1
+	firstDigitPos := len(code)
+	lastDigitPos := -1
 
 	digits := [2]int{0, 0}
 
@@ -26,10 +26,10 @@ func getCalibrationValueTwo(code string) int {
 		lastIndex := strings.LastIndex(code, strArr[i])
 
 		if firstIndex != -1 {
-			updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, firstIndex, i)
+			updateDigits(&firstDigitPos, &lastDigitPos, &digits, firstIndex, i)
 
 			if firstIndex != lastIndex {
-				updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, lastIndex, i)
+				updateDigits(&firstDigitPos, &lastDigitPos, &digits, lastIndex, i)
 			}
 		}
 	}
@@ -38,19 +38,19 @@ func getCalibrationValueTwo(code string) int {
 		if !unicode.IsDigit(r) {
 			continue
 		}
-		updateDigits(&firstDigitPosition, &lastDigitPosition, &digits, i, int(r-'0'))
+		updateDigits(&firstDigitPos, &lastDigitPos, &digits, i, int(r-'0'))
 	}
 
 	return digits[0]*10 + digits[1]
 }
 
-func updateDigits(firstDigitPosition *int, lastDigitPosition *int, digits *[2]int, index int, value int) {
-	if index < *firstDigitPosition {
-		*firstDigitPosition = index
+func updateDigits(firstDigitPos *int, lastDigitPos *int, digits *[2]int, index int, value int) {
+	if index < *firstDigitPos {
+		*firstDigitPos = index
 		(*digits)[0] = value
 	}
-	if index > *lastDigitPosition {
-		*lastDigitPosition = index
+	if index > *lastDigitPos {
+		*lastDigitPos = index
 		(*digits)[1] = value
 	}
 }
