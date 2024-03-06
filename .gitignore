@@ -3,11 +3,9 @@
 *.dll
 *.so
 *.dylib
-
 *.test
-
 *.out
-
 go.work
-
 test
+.editorconfig
+rust/target
