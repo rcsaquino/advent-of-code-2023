@@ -1,57 +1,59 @@
 module day_01
 
-fn part_two(lines []string) int {
-	mut total := 0
+fn part_two(input string) int {
+	spelled_numbers := ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+		'nine']
+
+	mut collection := []int{}
+
+	lines := input.split('\n')
+
 	for line in lines {
-		total += get_calibration_value_two(line)
-	}
-	return total
-}
+		mut digits := [0, 0]
+		mut first_digit_index := -1
+		mut last_digit_index := -1
 
-fn get_calibration_value_two(code string) int {
-	str_arr := ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+		for actual_number, spelled_number in spelled_numbers {
+			if line.contains(spelled_number) {
+				mut f_index := -1
+				for {
+					f_index = line.index_after(spelled_number, f_index + 1)
+					if f_index == -1 {
+						break
+					}
 
-	mut first_pos := code.len_utf8()
-	mut last_pos := -1
-
-	mut digits := [0, 0]
-
-	for i, word in str_arr {
-		first_i := code.index(word) or { -1 }
-		last_i := code.index_last(word) or { -1 }
-
-		if first_i != -1 {
-			first_pos, last_pos = update(first_pos, last_pos, mut digits, first_i, i)
-
-			if first_i != last_i {
-				first_pos, last_pos = update(first_pos, last_pos, mut digits, last_i,
-					i)
+					if first_digit_index == -1 || first_digit_index > f_index {
+						first_digit_index = f_index
+						digits[0] = actual_number
+					}
+					if last_digit_index == -1 || last_digit_index < f_index {
+						last_digit_index = f_index
+						digits[1] = actual_number
+					}
+				}
 			}
 		}
-	}
 
-	for i, r in code {
-		if !r.is_digit() {
-			continue
+		for i, c in line {
+			if c.is_digit() {
+				if first_digit_index == -1 || first_digit_index > i {
+					first_digit_index = i
+					digits[0] = c.ascii_str().int()
+				}
+				if last_digit_index == -1 || last_digit_index < i {
+					last_digit_index = i
+					digits[1] = c.ascii_str().int()
+				}
+			}
 		}
-		first_pos, last_pos = update(first_pos, last_pos, mut digits, i, r.ascii_str().int())
+
+		collection << digits[0] * 10 + digits[1]
 	}
 
-	return digits[0] * 10 + digits[1]
-}
-
-fn update(first_pos int, last_pos int, mut digits []int, index int, value int) (int, int) {
-	mut new_first := first_pos
-	mut new_last := last_pos
-
-	if index < first_pos {
-		new_first = index
-		digits[0] = value
+	mut sum := 0
+	for num in collection {
+		sum += num
 	}
-	if index > last_pos {
-		new_last = index
-		digits[1] = value
-	}
-	
-	return new_first, new_last
+
+	return sum
 }

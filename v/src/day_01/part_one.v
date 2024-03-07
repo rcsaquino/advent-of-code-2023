@@ -1,22 +1,23 @@
 module day_01
 
-fn part_one(lines []string) int {
-	mut total := 0
-	for line in lines {
-		total += get_calibration_value_one(line)
-	}
-
-	return total
-}
-
-fn get_calibration_value_one(code string) int {
+fn part_one(input string) int {
 	mut digits := []int{}
+	mut collection := []int{}
 
-	for r in code {
-		if r.is_digit() {
-			digits << r.ascii_str().int()
+	for i, c in input {
+		if c.is_digit() {
+			digits << c.ascii_str().int()
+		}
+
+		if c.ascii_str() == '\n' || i == (input.len - 1) {
+			value := digits.first() * 10 + digits.last()
+			collection << value
+			digits.clear()
 		}
 	}
-
-	return digits[0] * 10 + digits.last()
+	mut sum := 0
+	for num in collection {
+		sum += num
+	}
+	return sum
 }

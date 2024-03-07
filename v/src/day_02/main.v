@@ -1,8 +1,9 @@
 module day_02
 
-pub fn solution(input string) {
+pub fn print_answers(input string) {
 	lines := input.split('\r\n')
 
+	println('---DAY 2---')
 	println('Part 1: ${part_one(lines)}')
 	println('Part 2: ${part_two(lines)}')
 }
